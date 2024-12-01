@@ -1,6 +1,7 @@
 import requests
 import tkinter as tk
 from tkinter import ttk
+import threading
 
 # Listas de monedas y paginas
 pages = ['bcv', 'enparalelovzla', 'italcambio']
@@ -21,16 +22,29 @@ conversion_rates = {
 
 # Función para obtener datos de una página específica y moneda
 def get_data(page, monitor):
+    global connection_status
     url = f'https://pydolarve.org/api/v1/dollar?page={page}&monitor={monitor}'
-    response = requests.get(url)
-    if response.status_code == 200: 
-        return response.json()
-    else:
-        print(f'Error: {response.status_code}') 
+    try:
+        response = requests.get(url)
+        if response.status_code == 200: 
+            return response.json()
+        else:
+            print(f'Error: {response.status_code}') 
+            connection_status = False
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f'Error: {e}')
+        connection_status = False 
         return None
 
 # Función para mostrar datos
 def show_data(): 
+    global connection_status 
+    connection_status = True
+    # Limpiar los datos actuales en el árbol
+    for item in tree.get_children(): 
+        tree.delete(item)
+        
     for page in pages:
         usd_price, eur_price, last_update = None, None, None
         if page == 'enparalelovzla':
@@ -55,6 +69,13 @@ def show_data():
         # Transformar el nombre de la página antes de mostrarlo
         page_name = names.get(page, page)
         tree.insert('', 'end', text=page_name, values=(usd_price, eur_price, last_update))
+
+    # Mostrar mensaje de error si no hay conexión
+    if not connection_status: 
+        label_status.config(text="No se pudo obtener datos. Verifique su conexión a internet.", fg="red")
+    else: 
+        label_status.config(text="Datos obtenidos exitosamente.", fg="green")
+        root.after(3000, lambda: label_status.config(text=""))
 
 # Función para realizar la conversión
 def convert_currency():
@@ -116,17 +137,17 @@ tree.heading('usd_price', text='USD', anchor=tk.CENTER)
 tree.heading('eur_price', text='EUR', anchor=tk.CENTER)
 tree.heading('last_update', text='Fecha', anchor=tk.CENTER)
 
-# Mostrar datos 
-show_data() 
-
 # Empaquetar el árbol 
 tree.pack(pady=20) 
+
+# Botón de actualizar datos 
+button_update = tk.Button(root, text="Actualizar Datos", command=lambda: threading.Thread(target=show_data).start()) 
+button_update.pack(pady=10)
 
 # Seccion de conversion de moneda
 frame_conversion = tk.Frame(root) 
 frame_conversion.pack(pady=20)
 
-# Añadir el título 
 label_title = tk.Label(frame_conversion, text="Conversor", font=("Helvetica", 16, "bold")) 
 label_title.grid(row=0, column=0, columnspan=2, pady=10)
 
@@ -153,7 +174,6 @@ combo_to = ttk.Combobox(frame_conversion, values=['USD', 'EUR'])
 combo_to.grid(row=4, column=1, padx=10) 
 combo_to.current(0)
 
-
 # Desactivar la opción de moneda repetida y conversiones inválidas
 def update_currency_options(event): 
     selected_currency = combo_from.get()
@@ -178,6 +198,13 @@ button_convert.grid(row=5, column=0, columnspan=2, pady=10)
 
 label_result = tk.Label(root, text="Resultado: ", font=("Helvetica", 14, "bold")) 
 label_result.pack(pady=10)
+
+# Etiqueta para mostrar el estado de la conexión
+label_status = tk.Label(root, text="", font=("Helvetica", 12, "bold")) 
+label_status.pack(pady=10)
+
+# Mostrar datos 
+show_data() 
 
 # Ejecutar aplicación 
 root.mainloop()
