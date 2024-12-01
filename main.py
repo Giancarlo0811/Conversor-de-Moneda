@@ -93,24 +93,28 @@ def convert_currency():
         label_result.config(text="No disponible la conversión de EUR a Bs para la página seleccionada.") 
         return
 
-    label_result.config(text=f'Resultado: {converted_amount:.2f} {to_currency}')
+    label_result.config(text=f'Resultado: {converted_amount:.2f} {to_currency}', font=("Helvetica", 14, "bold"))
 
 # Crear ventana de tkinter 
 root = tk.Tk() 
-root.title("Conversor de Monedas - Venezuela") 
+root.title("Conversor de Monedas - Venezuela")
+
+# Añadir el título principal 
+title_label = tk.Label(root, text="Valor del Dólar y Euro en Venezuela", font=("Helvetica", 18, "bold")) 
+title_label.pack(pady=10)
 
 # Crear árbol de visualización 
-tree = ttk.Treeview(root) 
+tree = ttk.Treeview(root, height=5) 
 tree['columns'] = ('usd_price', 'eur_price', 'last_update') 
-tree.column('#0', width=120, minwidth=25, anchor=tk.W) 
+tree.column('#0', width=150, minwidth=25, anchor=tk.CENTER) 
 tree.column('usd_price', anchor=tk.CENTER, width=100)
 tree.column('eur_price', anchor=tk.CENTER, width=100)  
-tree.column('last_update', anchor=tk.W, width=150)
+tree.column('last_update', anchor=tk.CENTER, width=200)
 
-tree.heading('#0', text='Página', anchor=tk.W) 
-tree.heading('usd_price', text='Precio Dólar (Bs)', anchor=tk.CENTER)
-tree.heading('eur_price', text='Precio Euro (Bs)', anchor=tk.CENTER)
-tree.heading('last_update', text='Última Actualización', anchor=tk.W)
+tree.heading('#0', text='Página', anchor=tk.CENTER) 
+tree.heading('usd_price', text='USD', anchor=tk.CENTER)
+tree.heading('eur_price', text='EUR', anchor=tk.CENTER)
+tree.heading('last_update', text='Fecha', anchor=tk.CENTER)
 
 # Mostrar datos 
 show_data() 
@@ -122,27 +126,31 @@ tree.pack(pady=20)
 frame_conversion = tk.Frame(root) 
 frame_conversion.pack(pady=20)
 
+# Añadir el título 
+label_title = tk.Label(frame_conversion, text="Conversor", font=("Helvetica", 16, "bold")) 
+label_title.grid(row=0, column=0, columnspan=2, pady=10)
+
 label_amount = tk.Label(frame_conversion, text="Cantidad:") 
-label_amount.grid(row=0, column=0, padx=10)
+label_amount.grid(row=1, column=0, padx=10)
 entry_amount = tk.Entry(frame_conversion)
-entry_amount.grid(row=0, column=1, padx=10)
+entry_amount.grid(row=1, column=1, padx=10)
 
 label_page = tk.Label(frame_conversion, text="Página:") 
-label_page.grid(row=1, column=0, padx=10)
+label_page.grid(row=2, column=0, padx=10)
 combo_page = ttk.Combobox(frame_conversion, values=list(names.values()))
-combo_page.grid(row=1, column=1, padx=10) 
+combo_page.grid(row=2, column=1, padx=10) 
 combo_page.current(0) 
 
 label_from = tk.Label(frame_conversion, text="De:") 
-label_from.grid(row=2, column=0, padx=10) 
+label_from.grid(row=3, column=0, padx=10) 
 combo_from = ttk.Combobox(frame_conversion, values=['Bs', 'USD', 'EUR']) 
-combo_from.grid(row=2, column=1, padx=10) 
+combo_from.grid(row=3, column=1, padx=10) 
 combo_from.current(0)
 
 label_to = tk.Label(frame_conversion, text="A:") 
-label_to.grid(row=3, column=0, padx=10) 
+label_to.grid(row=4, column=0, padx=10) 
 combo_to = ttk.Combobox(frame_conversion, values=['USD', 'EUR']) 
-combo_to.grid(row=3, column=1, padx=10) 
+combo_to.grid(row=4, column=1, padx=10) 
 combo_to.current(0)
 
 
@@ -166,9 +174,9 @@ combo_from.set('Bs')
 combo_to.set('USD')
 
 button_convert = tk.Button(frame_conversion, text="Convertir", command=convert_currency) 
-button_convert.grid(row=4, column=0, columnspan=2, pady=10)
+button_convert.grid(row=5, column=0, columnspan=2, pady=10)
 
-label_result = tk.Label(root, text="Resultado: ") 
+label_result = tk.Label(root, text="Resultado: ", font=("Helvetica", 14, "bold")) 
 label_result.pack(pady=10)
 
 # Ejecutar aplicación 
