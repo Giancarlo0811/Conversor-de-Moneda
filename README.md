@@ -12,4 +12,5 @@ página o entidad.
 - Python 3.11
 - Librería requests para manejar la API 
 - Interfaz gráfica tkinter
+- Librería threading
 - API: https://github.com/fcoagz/api-pydolarvenezuela
