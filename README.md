@@ -1,9 +1,10 @@
 # Convertidor-de-Moneda
 Programa para obtener información en tiempo real sobre el valor del dólar y euro en Venezuela usando la 
-API pyDolarVenezuela. 
+API pyDolarVenezuela disponible en https://github.com/fcoagz/api-pydolarvenezuela.
+
 La aplicación obtiene los datos de tres entidades de seguimiento del dólar y/o euro: BCV, EnParaleloVzla e Italcambio. 
 Muestra su nombre, cambio y fecha de la última actualización.
-Además, permite la conversión entre bolívares y estas monedas extranjeras, seleccionando la tasa de cambio de la 
+Además, permite la conversión entre bolívares y las monedas extranjeras, seleccionando la tasa de cambio de la 
 página o entidad.
 
 ![alt text](./imagen-app.PNG)

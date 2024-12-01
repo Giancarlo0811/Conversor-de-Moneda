@@ -1,3 +1,7 @@
+# Este codigo utiliza la API  pyDolarVenezuela
+# Disponible en: https://github.com/fcoagz/api-pydolarvenezuela
+# licenciado bajo Apache License 2.0
+
 import requests
 import tkinter as tk
 from tkinter import ttk
