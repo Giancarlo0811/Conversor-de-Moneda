@@ -6,7 +6,7 @@ Muestra su nombre, cambio y fecha de la última actualización.
 Además, permite la conversión entre bolívares y estas monedas extranjeras, seleccionando la tasa de cambio de la 
 página o entidad.
 
-![alt text](./imagen_app.PNG)
+![alt text](./imagen-app.PNG)
 
 ## Software usado
 - Python 3.11
