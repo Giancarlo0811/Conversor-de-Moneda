@@ -16,6 +16,6 @@ página o entidad.
 - Librería threading
 - API: https://github.com/fcoagz/api-pydolarvenezuela
 
-## Instalación
+## Instrucciones
 1. Descargar el archivo .exe de [GitHub Releases](https://github.com/Giancarlo0811/Conversor-de-Moneda/releases)
 2. Ejecutar el archivo .exe para correr el programa
